@@ -1,6 +1,6 @@
-package com.example.muezza.data.dto
+package com.example.muezza.data.domain
 
-data class UserDto(
+data class UserDomain(
     val search:String,
     val category: String,
     val age: String,

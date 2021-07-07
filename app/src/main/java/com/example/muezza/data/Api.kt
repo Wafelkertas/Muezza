@@ -11,12 +11,13 @@ interface Api {
 
     @GET("posts?")
     suspend fun getPetsList(
-        @Query("search") search: String,
-        @Query("category") category: String,
-        @Query("age") age: String,
-        @Query("city_uuid") city_uuid: String,
-        @Query("clan_uuid") clan_uuid: String,
-        @Query("limit") limit: String
+        @Query("search") search : String,
+        @Query("category") category : String,
+        @Query("age") age : String,
+        @Query("city_uuid") city_uuid : String,
+        @Query("clan_uuid") clan_uuid : String,
+        @Query("limit") limit : String,
+        @Query("page") page : String
     ) : Response
 
     @GET("posts/{slug}")

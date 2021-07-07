@@ -72,7 +72,8 @@ fun PetsListScreen(
             PetList(
                 navController = navController,
                 entries = dataList,
-                detailScreenViewmodel = detailScreenViewmodel
+                detailScreenViewmodel = detailScreenViewmodel,
+                mainScreenViewmodel = mainScreenViewmodel
             )
         }
     }
@@ -127,13 +128,27 @@ fun SearchBar(
 fun PetList(
     navController: NavController,
     entries: List<Data>,
+    mainScreenViewmodel: MainScreenViewmodel,
     detailScreenViewmodel: DetailScreenViewmodel
 ){
+    val endReached by remember {  mainScreenViewmodel.endReached }
+//    val petsList by remember { mainScreenViewmodel.dataList    }
+//    val currentPage by remember { mainScreenViewmodel.currentPage    }
+
     LazyColumn(contentPadding = PaddingValues(16.dp)) {
+        val itemCount = entries.size
 
         items(entries){entry ->
 //            Log.d("Pet Entry", "${entry.image}")
-            PetEntry(entry = entry, navController = navController, detailScreenViewmodel = detailScreenViewmodel)
+            if (itemCount >= itemCount - 1 && !endReached){
+                Log.d("count and petlist", "${entries.count()} and ${entries.count()} and $endReached")
+                mainScreenViewmodel.loadList()
+            }
+            PetEntry(
+                entry = entry,
+                navController = navController,
+                detailScreenViewmodel = detailScreenViewmodel
+            )
         }
     }
 }

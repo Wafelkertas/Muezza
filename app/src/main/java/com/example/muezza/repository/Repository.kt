@@ -15,12 +15,12 @@ class Repository @Inject constructor(
     private val api : Api
 ) {
     suspend fun getPetsList(
-        search: String, category: String, age : String, city_uuid: String, clan_uuid : String, limit : String
+        search: String, category: String, age : String, city_uuid: String, clan_uuid : String, limit : String, page : String
     ) : Resource<Response> {
         val response = try {
-            api.getPetsList(search = search, category = category, age = age, city_uuid = city_uuid, clan_uuid = clan_uuid, limit = limit)
+            api.getPetsList(search = search, category = category, age = age, city_uuid = city_uuid, clan_uuid = clan_uuid, limit = limit, page = page)
         } catch (e: Exception) {
-            return Resource.Error(message = "An unknown error occurred")
+            return Resource.Error(message = "An unknown error occurred : $e")
         }
         Log.d("getlist", "${response.data}")
         return Resource.Success(response)
@@ -33,7 +33,7 @@ class Repository @Inject constructor(
         val response = try {
             api.getSinglePet(slug = urlArgument)
         } catch (e:Exception) {
-            return Resource.Error(message = "An unknown error occurred")
+            return Resource.Error(message = "An unknown error occurred : $e")
         }
         return Resource.Success(response)
     }

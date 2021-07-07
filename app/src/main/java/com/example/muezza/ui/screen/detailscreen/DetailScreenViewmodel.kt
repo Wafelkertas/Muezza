@@ -26,22 +26,7 @@ class DetailScreenViewmodel @Inject constructor(
     var singlePet : MutableState<PetsEntry?> = mutableStateOf(null)
 
 
-    init {
-        viewModelScope.launch {
-            delay(3000)
-            Log.d("singlepet", singlePet.value.toString())
-//            for (i in singlePet.value){
-//                Log.d("data $i", "$i")
-//            }
-        }
-        viewModelScope.launch {
-            delay(1000)
-            Log.d("singlepet", singlePet.value.toString())
-//            for (i in singlePet.value){
-//                Log.d("data $i", "$i")
-//            }
-        }
-    }
+
 
 
     // Function to get a single pets
