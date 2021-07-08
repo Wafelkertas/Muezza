@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.DiffUtil
 import com.example.muezza.data.remote.Data
 import com.example.muezza.repository.PetsRepository
 import com.example.muezza.repository.Repository
@@ -25,6 +26,8 @@ class MainScreenViewmodel @Inject constructor(
 
     // Variable that hold Api data limit
     private var limit = 30
+    private var currentPage = 1
+
 
 
     // State variable hold list of pets
@@ -34,15 +37,16 @@ class MainScreenViewmodel @Inject constructor(
     // State for when page scroll until the end
     var endReached = mutableStateOf(false)
 
-    var currentPage = mutableStateOf(1)
+
+    var totalData = mutableStateOf(0)
 
     init {
 
-        loadList()
+//        loadList()
         Log.d("viewmodel", "${dataList.value}")
         viewModelScope.launch {
             delay(10000)
-            Log.d("list size", "${dataList.value.size} ${currentPage.value}")
+            Log.d("listsize", "${dataList.value.size} ${currentPage}")
         }
     }
 
@@ -53,19 +57,21 @@ class MainScreenViewmodel @Inject constructor(
         viewModelScope.launch {
             isLoading.value = true
             val response = repository.getPetsList(
-            "","","","","", API_LIMIT.toString(), currentPage.value.toString()
+            "","","","","", API_LIMIT.toString(), currentPage.toString()
             )
-            Log.d("viewmodeldata", "${response.data}")
+//            Log.d("viewmodeldata", "${response.data}")
             when(response) {
                 is Resource.Success -> {
-                    endReached.value = currentPage.value * API_LIMIT >= response.data!!.totalData
-                    Log.d("end reach", "${endReached.value}")
+                    totalData.value = response.data!!.totalData
+                    endReached.value = currentPage * API_LIMIT >= response.data.totalData
+                    Log.d("endreach", "${endReached.value}")
 
 
                     isLoading.value = false
 
-                    currentPage.value = currentPage.value + 1
-                    listComparator(dataList.value, response.data.data)
+                    currentPage++
+
+                    dataList.value = listComparator(dataList.value, response.data.data)
 
 
 
@@ -81,17 +87,13 @@ class MainScreenViewmodel @Inject constructor(
 
     }
 
-    private fun listComparator(oldList: List<Data>, newList: List<Data>) {
-
-
+    private fun listComparator(oldList: MutableList<Data>, newList: List<Data>): MutableList<Data> {
+        Log.d("kepanggil", "kepanggil")
         val difference : MutableList<Data> = newList.filterNot { oldList.contains(it.uuid) }.toMutableList()
-
-        for (i in difference){
-            dataList.value.add(i)
-        }
-
+        return (oldList + difference).toMutableList()
 
     }
+
 
 
 

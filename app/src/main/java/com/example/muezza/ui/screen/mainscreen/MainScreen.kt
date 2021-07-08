@@ -47,7 +47,7 @@ fun PetsListScreen(
     detailScreenViewmodel : DetailScreenViewmodel = hiltNavGraphViewModel()
 ){
     val dataList by remember { mainScreenViewmodel.dataList }
-
+    mainScreenViewmodel.loadList()
 
     Surface(
         color = MaterialTheme.colors.background,
@@ -132,18 +132,18 @@ fun PetList(
     detailScreenViewmodel: DetailScreenViewmodel
 ){
     val endReached by remember {  mainScreenViewmodel.endReached }
-//    val petsList by remember { mainScreenViewmodel.dataList    }
+    val totalData by remember { mainScreenViewmodel.totalData    }
 //    val currentPage by remember { mainScreenViewmodel.currentPage    }
 
+    if (totalData >= entries.count()  && !endReached){
+        Log.d("countandpetlist", "${entries.count()} and ${totalData} and $endReached")
+        mainScreenViewmodel.loadList()
+    }
+
     LazyColumn(contentPadding = PaddingValues(16.dp)) {
-        val itemCount = entries.size
+
 
         items(entries){entry ->
-//            Log.d("Pet Entry", "${entry.image}")
-            if (itemCount >= itemCount - 1 && !endReached){
-                Log.d("count and petlist", "${entries.count()} and ${entries.count()} and $endReached")
-                mainScreenViewmodel.loadList()
-            }
             PetEntry(
                 entry = entry,
                 navController = navController,

@@ -29,35 +29,7 @@ fun imageUrlManipulation(imageUrl: String): String {
     return "https${imgUrl}"
 }
 
-//class MyDiffUtil(
-//    private val oldList : List<Data>,
-//    private val newList : List<Data>
-//) : DiffUtil.Callback(){
-//    override fun getOldListSize(): Int {
-//        return oldList.size
-//    }
-//
-//    override fun getNewListSize(): Int {
-//        return newList.size
-//    }
-//
-//    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-//        return oldList[oldItemPosition].uuid == newList[newItemPosition].uuid
-//    }
-//
-//    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-//        return when{
-//            oldList[oldItemPosition].uuid != newList[newItemPosition].uuid -> {
-//                false
-//            }
-//            oldList[oldItemPosition].slug != newList[newItemPosition].slug -> {
-//                false
-//            }
-//            else -> true
-//        }
-//    }
-//
-//}
+
 
 //fun listComparator(firstList: List<Data>, secondList: List<Data>) : MutableList<Data>{
 //    var newList: MutableList<Data> = mutableListOf()
