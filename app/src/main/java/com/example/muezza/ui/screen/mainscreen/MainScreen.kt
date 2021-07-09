@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -132,16 +133,18 @@ fun PetList(
     detailScreenViewmodel: DetailScreenViewmodel
 ){
     val endReached by remember {  mainScreenViewmodel.endReached }
-    val totalData by remember { mainScreenViewmodel.totalData    }
+//    val totalData by remember { mainScreenViewmodel.totalData    }
 //    val currentPage by remember { mainScreenViewmodel.currentPage    }
+    val listState = rememberLazyListState()
 
-    if (totalData >= entries.count()  && !endReached){
-        Log.d("countandpetlist", "${entries.count()} and ${totalData} and $endReached")
-        mainScreenViewmodel.loadList()
-    }
 
-    LazyColumn(contentPadding = PaddingValues(16.dp)) {
 
+    LazyColumn(state = listState ,contentPadding = PaddingValues(16.dp)) {
+        if (entries.size >= entries.size-1  && !endReached){
+//            Log.d("countandpetlist", "${entries.count()} and ${totalData} and $endReached")
+            mainScreenViewmodel.loadList()
+        }
+        listState.layoutInfo.
 
         items(entries){entry ->
             PetEntry(

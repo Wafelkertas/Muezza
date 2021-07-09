@@ -25,13 +25,13 @@ class MainScreenViewmodel @Inject constructor(
     // Variable that hold Api page
 
     // Variable that hold Api data limit
-    private var limit = 30
+    private var limit = 0
     private var currentPage = 1
 
 
 
     // State variable hold list of pets
-    var dataList = mutableStateOf<MutableList<Data>>(mutableListOf())
+    var dataList = mutableStateOf<List<Data>>(listOf())
     // State for when data is loading
     var isLoading = mutableStateOf(false)
     // State for when page scroll until the end
@@ -63,16 +63,17 @@ class MainScreenViewmodel @Inject constructor(
             when(response) {
                 is Resource.Success -> {
                     totalData.value = response.data!!.totalData
-                    endReached.value = currentPage * API_LIMIT >= response.data.totalData
+                    endReached.value = limit * API_LIMIT >= response.data.totalData
                     Log.d("endreach", "${endReached.value}")
 
 
                     isLoading.value = false
 
                     currentPage++
+                    limit++
 
-                    dataList.value = listComparator(dataList.value, response.data.data)
-
+//                    dataList.value = listComparator(dataList.value, response.data.data)
+                    dataList.value += response.data.data
 
 
                 }
